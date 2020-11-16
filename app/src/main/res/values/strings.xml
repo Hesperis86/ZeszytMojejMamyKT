@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Zeszyt mojej mamy (Kt)</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title">Tytuł</string>
+    <string name="portions_number">Liczba porcji</string>
+    <string name="ingredients">Składniki</string>
+    <string name="prepInstructions">Opis przygotowania</string>
+</resources>
