@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import com.example.zeszytmojejmamykt.R
 import com.example.zeszytmojejmamykt.db.Recipe
 import com.example.zeszytmojejmamykt.db.RecipesDatabase
 import kotlinx.android.synthetic.main.fragment_add_recipe.*
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,7 +24,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [AddRecipeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AddRecipeFragment : Fragment() {
+class AddRecipeFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -46,7 +48,7 @@ class AddRecipeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        button_save.setOnClickListener {
+        button_save.setOnClickListener { view ->
             val recipeTitle = edit_text_title.text.toString().trim()
             //val portionsNum =Integer.parseInt(edit_text_portions.text.toString().trim()) //number??
             val portionsNum = edit_text_portions.text.toString().trim().toInt() //number??
@@ -77,12 +79,24 @@ class AddRecipeFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            val recipe = Recipe(recipeTitle, portionsNum, ingredients, preparationInstructions)
+            launch {
+                val recipe = Recipe(recipeTitle, portionsNum, ingredients, preparationInstructions)
 
-            saveRecipe(recipe)
+                context?.let {
+                    RecipesDatabase(it).getRecipeDao().addRecipe(recipe)
+                    it.toast("Recipe Saved")
+
+                    val action = AddRecipeFragmentDirections.actionSaveRecipe()
+                    Navigation.findNavController(view).navigate(action)
+                }
+            }
+
+
+
+            //saveRecipe(recipe)
         }
     }
-
+    /*
     private fun saveRecipe(recipe: Recipe) {
         class SaveRecipe : AsyncTask<Void, Void, Void>() {
             override fun doInBackground(vararg params: Void?): Void? {
@@ -99,6 +113,7 @@ class AddRecipeFragment : Fragment() {
         }
         SaveRecipe().execute()
     }
+    */
 
     companion object {
         /**

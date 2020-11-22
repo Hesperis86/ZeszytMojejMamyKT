@@ -8,8 +8,8 @@ import androidx.room.Query
 interface IngredientsDao {
 
     @Insert
-    fun addIngredient(ingredients: Ingredients)
+    suspend fun addIngredient(ingredients: Ingredients)
 
     @Query("SELECT * from ingredients")
-    fun getAllIngredients(): List<Ingredients>
+    suspend fun getAllIngredients(): List<Ingredients>
 }

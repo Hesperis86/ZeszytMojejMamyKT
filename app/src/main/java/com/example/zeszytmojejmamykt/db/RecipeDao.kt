@@ -8,10 +8,10 @@ import androidx.room.Query
 interface RecipeDao {
 
     @Insert
-    fun addRecipe(recipe: Recipe)
+    suspend fun addRecipe(recipe: Recipe) //suspend means that the function can be reached only in scope of a coroutine
 
-    @Query("SELECT * from recipes")
-    fun getAllRecipes(): List<Recipe>
+    @Query("SELECT * from recipes ORDER BY id DESC")
+    suspend fun getAllRecipes(): List<Recipe>
 
     //@Insert
     //fun addMultipleRecipes(vararg recipe: Recipe)

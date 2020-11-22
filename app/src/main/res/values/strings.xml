@@ -6,4 +6,5 @@
     <string name="portions_number">Liczba porcji</string>
     <string name="ingredients">Składniki</string>
     <string name="prepInstructions">Opis przygotowania</string>
+    <string name="recipeTitle">Tytuł</string>
 </resources>

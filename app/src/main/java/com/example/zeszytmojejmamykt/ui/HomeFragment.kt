@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.zeszytmojejmamykt.R
+import com.example.zeszytmojejmamykt.db.RecipesDatabase
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -42,6 +45,17 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        recycler_view_recipes.setHasFixedSize(true)
+        recycler_view_recipes.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
+
+        launch {
+            context?.let {
+                val recipes = RecipesDatabase(it).getRecipeDao().getAllRecipes()
+                recycler_view_recipes.adapter = RecipesAdapter(recipes)
+            }
+
+        }
 
         button_add.setOnClickListener {
             val action = HomeFragmentDirections.actionAddRecipe()
